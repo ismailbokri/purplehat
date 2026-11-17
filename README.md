@@ -690,6 +690,7 @@ Allowed recon commands and the default LLM model are set in
 | `pg_config executable not found` while installing | Install the build tools (§4.3) or use `psycopg2-binary` (Step 8 note). |
 | `{"detail":"Not Found"}` after refreshing a page on port 8000 | Expected in single-port mode. Go to `/`, or use development mode (§6). |
 | News page is empty | The weekly refresh runs in the background at startup and needs internet access plus a working Groq key. Check the backend log for `[startup] news update …`. |
+| `remote: Repository not found` on `git clone` / `git push` of this private repo | Git used a saved GitHub login that can't see the repository. Run `gh auth login`, then `gh auth setup-git`, so Git uses the GitHub CLI login. On Windows you can also delete the `git:https://github.com` entry in *Credential Manager → Windows Credentials* and retry. |
 | VulnShop `/.env` or `/.git/config` return an error | Those two bait files are not in Git (Git can't track a `.git` folder, and `.env` files are ignored). The other VulnShop vulnerabilities work. |
 
 ---
