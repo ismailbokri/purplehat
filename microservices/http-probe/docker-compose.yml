@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  http-probe:
+    build: .
+    image: http-probe:latest
+    env_file:
+      - ../../.env
+    networks:
+      - pentest-net
+
+networks:
+  pentest-net:
+    external: true

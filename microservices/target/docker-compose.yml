@@ -1,0 +1,46 @@
+services:
+  dvwa-web:
+    image: vulnerables/web-dvwa
+    container_name: dvwa-web
+    ports:
+      - "8081:80"
+    depends_on:
+      - dvwa-db
+    networks:
+      - pentest-net
+
+  dvwa-db:
+    image: mysql:5.7
+    container_name: dvwa-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: dvwa
+      MYSQL_USER: dvwa
+      MYSQL_PASSWORD: dvwa
+    networks:
+      - pentest-net
+
+  juice-shop:
+    image: bkimminich/juice-shop
+    container_name: juice-shop
+    ports:
+      - "8082:3000"
+    networks:
+      - pentest-net
+    restart: unless-stopped
+
+  webgoat:
+    image: webgoat/webgoat
+    container_name: webgoat
+    ports:
+      - "8083:8080"
+    environment:
+      WEBGOAT_USER: guest
+      WEBGOAT_PASSWORD: guest
+    networks:
+      - pentest-net
+    restart: unless-stopped
+
+networks:
+  pentest-net:
+    external: true

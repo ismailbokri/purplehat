@@ -1,0 +1,11 @@
+User-agent: *
+Disallow: /admin
+Disallow: /backup
+Disallow: /config.py
+Disallow: /.env
+Disallow: /.git
+Disallow: /api
+Disallow: /debug
+Disallow: /uploads
+Disallow: /server-status
+Sitemap: /sitemap.xml

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <div>
+    <h1>Smart gear, honestly priced.</h1>
+    <p>Headphones, wearables and desk upgrades shipped next day. New arrivals every week.</p>
+    <a class="btn" href="{{ url_for('search') }}?q=">Browse the catalog</a>
+  </div>
+  <div class="hero-art"></div>
+</section>
+
+<div class="section-head">
+  <h2>Featured products</h2>
+  <span class="muted">{{ products|length }} items in stock</span>
+</div>
+
+<div class="grid">
+  {% for p in products %}
+  <div class="card">
+    <a class="cover" href="{{ url_for('product', pid=p.id) }}">
+      <img class="thumb" src="{{ url_for('product_image', pid=p.id) }}" alt="{{ p.name }}">
+    </a>
+    <div class="body">
+      <div class="cat">{{ p.category }}</div>
+      <h3><a href="{{ url_for('product', pid=p.id) }}">{{ p.name }}</a></h3>
+      <div class="row">
+        <span class="price">${{ '%.2f'|format(p.price) }}</span>
+        <form action="{{ url_for('cart_add') }}" method="post">
+          <input type="hidden" name="product_id" value="{{ p.id }}">
+          <button class="btn sm" type="submit">Add</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

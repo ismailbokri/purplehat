@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="section-head">
+  <!-- VULN: reflected XSS - user input echoed with |safe -->
+  <h2>Results for &ldquo;{{ q|safe }}&rdquo;</h2>
+  <span class="muted">{{ results|length }} match(es)</span>
+</div>
+
+{% if error %}<div class="alert err">{{ error }}</div>{% endif %}
+
+{% if results %}
+<div class="grid">
+  {% for r in results %}
+  <div class="card">
+    <a class="cover" href="{{ url_for('product', pid=r.id) }}">
+      <img class="thumb" src="{{ url_for('product_image', pid=r.id if (r.id is number) else 1) }}" alt="">
+    </a>
+    <div class="body">
+      <h3><a href="{{ url_for('product', pid=r.id) }}">{{ r.name }}</a></h3>
+      <div class="row">
+        <span class="price">${{ '%.2f'|format(r.price|float) if r.price is not none else '0.00' }}</span>
+      </div>
+      <p class="hint">{{ r.description }}</p>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+  <p class="muted">No products matched your search.</p>
+{% endif %}
+{% endblock %}

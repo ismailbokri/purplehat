@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="section-head"><h2>Order #{{ order.id }}</h2>
+  <span class="muted">{{ order.status }}</span></div>
+<div class="panel" style="max-width:620px">
+  <table class="data">
+    <tr><th>Order ID</th><td>{{ order.id }}</td></tr>
+    <tr><th>Customer</th><td>{{ owner.username }} ({{ owner.email }})</td></tr>
+    <tr><th>Card on file</th><td>{{ owner.credit_card }}</td></tr>
+    <tr><th>Total</th><td>${{ '%.2f'|format(order.total|float) }}</td></tr>
+    <tr><th>Status</th><td>{{ order.status }}</td></tr>
+  </table>
+  <p class="hint">Tip: try changing the order number in the URL.</p>
+</div>
+{% endblock %}

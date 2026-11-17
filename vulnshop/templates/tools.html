@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="section-head"><h2>Network tools</h2>
+  <span class="muted">Diagnostics</span></div>
+<div class="panel" style="max-width:680px">
+  <p class="muted">Ping a host to check connectivity from the server.</p>
+  <form method="post" action="{{ url_for('admin_ping') }}" style="display:flex; gap:8px">
+    <input name="host" value="{{ host }}" placeholder="e.g. 127.0.0.1"
+           style="flex:1; padding:10px 12px; border:1px solid var(--line); border-radius:10px">
+    <button class="btn" type="submit">Ping</button>
+  </form>
+  {% if output %}<div class="tool-output">{{ output }}</div>{% endif %}
+</div>
+{% endblock %}

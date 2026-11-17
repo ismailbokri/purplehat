@@ -1,0 +1,12 @@
+{
+  "name": "browser_investigate_summary",
+  "version": "1",
+  "uri": "prompts:/browser_investigate_summary/1",
+  "template": "Summarise the following browser recon findings for the security team (3-5 sentences).\nFocus on: discovered endpoints, authentication surfaces, and potential vulnerability vectors.\n\nHit targets found   : {hit_count}\nLogin endpoints     : {login_count}\nDiscovered routes   : {routes}\nAttack surface hints: {surfaces}\n\nReturn JSON with a single field \"summary\" containing the paragraph.",
+  "tags": {
+    "system_prompt": "You are a senior penetration tester writing a brief executive summary of\nbrowser-based reconnaissance findings. Be factual, concise, and security-focused.\nReturn only valid JSON.",
+    "json_schema": "{\"name\": \"browser_investigate_summary\", \"schema\": {\"type\": \"object\", \"properties\": {\"summary\": {\"type\": \"string\"}}, \"required\": [\"summary\"], \"additionalProperties\": false}}",
+    "node": "browser_investigate_node",
+    "agent": "pentest-agent"
+  }
+}

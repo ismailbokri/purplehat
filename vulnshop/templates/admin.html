@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="section-head"><h2>Admin dashboard</h2>
+  <span class="muted">{{ users|length }} users &middot; {{ orders|length }} orders</span></div>
+<div class="admin-grid">
+  <nav class="admin-nav panel">
+    <a href="#users">Users</a>
+    <a href="#orders">Orders</a>
+    <a href="#products">Products</a>
+    <a href="{{ url_for('admin_ping') }}">Network tools</a>
+  </nav>
+  <div>
+    <div class="panel" id="users">
+      <h3 style="margin-top:0">Users</h3>
+      <table class="data">
+        <tr><th>ID</th><th>Username</th><th>Password</th><th>Email</th><th>Card</th><th>Role</th></tr>
+        {% for u in users %}
+        <tr>
+          <td>{{ u.id }}</td><td>{{ u.username }}</td><td>{{ u.password }}</td>
+          <td>{{ u.email }}</td><td>{{ u.credit_card }}</td>
+          <td>{% if u.is_admin %}<span class="badge admin">admin</span>{% else %}<span class="badge user">user</span>{% endif %}</td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+
+    <div class="panel" id="orders" style="margin-top:20px">
+      <h3 style="margin-top:0">Orders</h3>
+      <table class="data">
+        <tr><th>ID</th><th>User</th><th>Total</th><th>Status</th></tr>
+        {% for o in orders %}
+        <tr><td><a href="/order/{{ o.id }}">#{{ o.id }}</a></td><td>{{ o.user_id }}</td>
+            <td>${{ '%.2f'|format(o.total|float) }}</td><td>{{ o.status }}</td></tr>
+        {% endfor %}
+      </table>
+    </div>
+
+    <div class="panel" id="products" style="margin-top:20px">
+      <h3 style="margin-top:0">Products</h3>
+      <table class="data">
+        <tr><th>ID</th><th>Name</th><th>Price</th><th>Stock</th></tr>
+        {% for p in products %}
+        <tr><td>{{ p.id }}</td><td>{{ p.name }}</td>
+            <td>${{ '%.2f'|format(p.price|float) }}</td><td>{{ p.stock }}</td></tr>
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

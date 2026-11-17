@@ -1,0 +1,40 @@
+# VulnShop - lab stack
+# WARNING: intentionally vulnerable. Keep this on an isolated host/network.
+services:
+  web:
+    build: .
+    image: vulnshop:latest
+    container_name: vulnshop-web
+    ports:
+      - "8084:5000"          # storefront + all web vulns (808x target convention; 5000 is MLflow)
+    environment:
+      DB_HOST: db
+      DB_USER: vulnshop
+      DB_PASS: vulnshop123
+      DB_NAME: vulnshop
+    depends_on:
+      - db
+    networks:
+      - pentest-net
+    restart: unless-stopped
+
+  db:
+    image: mysql:5.7           # EOL version on purpose (CVE surface for scanners)
+    container_name: vulnshop-db
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - "3306:3306"          # DB exposed on purpose (Nmap discovery target)
+    environment:
+      MYSQL_ROOT_PASSWORD: root           # weak root password
+      MYSQL_DATABASE: vulnshop
+      MYSQL_USER: vulnshop
+      MYSQL_PASSWORD: vulnshop123
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - pentest-net
+    restart: unless-stopped
+
+networks:
+  pentest-net:
+    external: true

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="panel" style="max-width:620px; margin-top:24px">
+  <h2 style="margin-top:0">{{ profile.username }}
+     {% if profile.is_admin %}<span class="badge admin">admin</span>{% else %}<span class="badge user">member</span>{% endif %}</h2>
+  {% if profile.avatar %}
+    <img src="/uploads/{{ profile.avatar }}" alt="" style="max-width:140px; border-radius:12px; margin:8px 0">
+  {% endif %}
+  <!-- VULN: stored XSS - bio rendered with |safe on a public page -->
+  <div class="body">{{ profile.bio|safe }}</div>
+</div>
+{% endblock %}

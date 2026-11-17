@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="section-head"><h2>My account</h2></div>
+<div class="detail" style="grid-template-columns:1fr 1fr">
+  <div class="panel">
+    <h3 style="margin-top:0">Profile</h3>
+    <p><strong>{{ user.username }}</strong>
+       {% if user.is_admin %}<span class="badge admin">admin</span>{% endif %}</p>
+    <p class="hint">{{ user.email }}</p>
+    {% if user.avatar %}
+      <img src="/uploads/{{ user.avatar }}" alt="avatar" style="max-width:120px; border-radius:10px; margin:10px 0">
+    {% endif %}
+    <form method="post" action="{{ url_for('profile_update') }}">
+      <div class="field">
+        <label>Bio (shown on your public profile)</label>
+        <textarea name="bio">{{ user.bio or '' }}</textarea>
+      </div>
+      <button class="btn" type="submit">Save profile</button>
+    </form>
+    <form method="post" action="{{ url_for('avatar') }}" enctype="multipart/form-data" style="margin-top:14px">
+      <div class="field">
+        <label>Avatar image</label>
+        <input type="file" name="avatar">
+      </div>
+      <button class="btn ghost sm" type="submit">Upload avatar</button>
+    </form>
+    <p class="hint">Public profile: <a href="/user/{{ user.id }}">/user/{{ user.id }}</a></p>
+  </div>
+  <div class="panel">
+    <h3 style="margin-top:0">Order history</h3>
+    {% if orders %}
+    <table class="data">
+      <tr><th>Order</th><th>Total</th><th>Status</th></tr>
+      {% for o in orders %}
+      <tr><td><a href="/order/{{ o.id }}">#{{ o.id }}</a></td>
+          <td>${{ '%.2f'|format(o.total|float) }}</td><td>{{ o.status }}</td></tr>
+      {% endfor %}
+    </table>
+    {% else %}<p class="muted">No orders yet.</p>{% endif %}
+  </div>
+</div>
+{% endblock %}

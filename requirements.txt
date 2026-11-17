@@ -1,0 +1,38 @@
+# PenTest AI — runtime dependencies.
+#
+# Trimmed after removing the exploit/code-generation pipeline and its
+# vulnerability corpus: torch, transformers, sentence-transformers,
+# scikit-learn, scipy, langchain*, langgraph* and their transitive ML deps are
+# no longer imported by any live code (the app boots without them). Only the
+# packages the running web app actually uses remain. Versions match the
+# verified working virtualenv.
+
+# Web server
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+
+# LLM client
+groq==1.1.1
+openai==2.31.0
+
+# HTTP
+httpx==0.28.1
+requests==2.31.0
+
+# Database
+psycopg2==2.9.11
+
+# Models / validation
+pydantic==2.9.2
+python-dotenv==1.0.1
+email-validator==2.2.0
+
+# Auth
+bcrypt==4.0.1
+python-jose[cryptography]==3.3.0
+
+# Reporting (PDF)
+reportlab==4.5.0
+
+# Tech fingerprinting
+python-Wappalyzer==0.3.1

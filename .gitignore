@@ -1,0 +1,72 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# PurpleHat — files that must never be committed
+# ─────────────────────────────────────────────────────────────────────────────
+
+# ── Secrets ──────────────────────────────────────────────────────────────────
+# Real API keys, JWT secret and DB password live here. Commit .env.example only.
+# (This also keeps vulnshop/.env — the lab target's bait file — out of Git.)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# ── Python ───────────────────────────────────────────────────────────────────
+venv/
+.venv/
+env/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# ── Frontend (Node / Vite) ───────────────────────────────────────────────────
+node_modules/
+# Build output — regenerate with `npm run build` inside frontend/
+frontend/dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ── Local databases & legacy ML tracking ─────────────────────────────────────
+# NOTE: do NOT ignore the db/ folder itself — it holds the database code
+# (connection.py, bootstrap.py, schema.sql). Only the local .db files go.
+*.db
+*.sqlite
+*.sqlite3
+mlflow/
+mlruns/
+
+# ── Generated at runtime ─────────────────────────────────────────────────────
+# Pentest reports and findings may contain sensitive target data.
+reports/
+sandboxes/
+runs/
+exploits/
+scripts/backups/
+benchmarks/
+feedback_results/
+zsandboxes_feedback/
+
+# ── Logs & LaTeX leftovers ───────────────────────────────────────────────────
+*.log
+*.aux
+*.out
+*.toc
+*.synctex.gz
+
+# ── OS / editor ──────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ── Claude Code (per-machine settings) ───────────────────────────────────────
+.claude/settings.local.json

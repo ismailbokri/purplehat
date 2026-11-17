@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="detail">
+  <div class="gallery">
+    <img src="{{ url_for('product_image', pid=item.id if (item.id is number) else 1) }}" alt="{{ item.name }}">
+  </div>
+  <div>
+    <div class="cat">{{ item.category }}</div>
+    <h1>{{ item.name }}</h1>
+    <div class="price">${{ '%.2f'|format(item.price|float) if item.price is not none else item.price }}</div>
+    <div class="meta">
+      <span>In stock: {{ item.stock }}</span>
+      <span>SKU: VS-{{ item.id }}</span>
+    </div>
+    <p class="desc">{{ item.description }}</p>
+    <form action="{{ url_for('cart_add') }}" method="post">
+      <input type="hidden" name="product_id" value="{{ item.id }}">
+      <button class="btn" type="submit">Add to cart</button>
+    </form>
+  </div>
+</div>
+
+<div class="reviews">
+  <div class="section-head"><h2>Customer reviews</h2></div>
+  {% for rv in reviews %}
+  <div class="review">
+    <div class="who">{{ rv.author }}</div>
+    <!-- VULN: stored XSS - review body rendered with |safe -->
+    <div class="body">{{ rv.body|safe }}</div>
+  </div>
+  {% else %}
+    <p class="muted">No reviews yet.</p>
+  {% endfor %}
+
+  <div class="panel" style="margin-top:20px; max-width:560px">
+    <h3 style="margin-top:0">Write a review</h3>
+    <form action="{{ url_for('add_review', pid=item.id) }}" method="post">
+      <div class="field">
+        <label>Your review</label>
+        <textarea name="body" placeholder="Share your thoughts&hellip;"></textarea>
+      </div>
+      <button class="btn" type="submit">Submit review</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

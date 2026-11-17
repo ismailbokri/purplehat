@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="section-head"><h2>Orders</h2></div>
+<div class="panel">
+<table class="data">
+  <tr><th>Order</th><th>Total</th><th>Status</th></tr>
+  {% for o in orders %}
+  <tr><td><a href="/order/{{ o.id }}">#{{ o.id }}</a></td>
+      <td>${{ '%.2f'|format(o.total|float) }}</td><td>{{ o.status }}</td></tr>
+  {% endfor %}
+</table>
+</div>
+{% endblock %}

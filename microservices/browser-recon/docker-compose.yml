@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  browser-recon:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: browser-recon:latest
+    env_file:
+      - ../../.env
+    networks:
+      - pentest-net
+
+networks:
+  pentest-net:
+    external: true
